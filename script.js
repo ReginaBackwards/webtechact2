@@ -1,7 +1,5 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoicmVnaW5hYmFja3dhcmRzIiwiYSI6ImNsbnN4Y3JqcDFoM2YybW8ycTd2ZGJqZjQifQ.uKv4TTT2HDybR6e_l8UDdg';
 
-var api = 'https://flight-radar1.p.rapidapi.com/airports/list';
-var apiKey = '?rapidapi-key=14c76f3f8amshb8be56169523917p1abdd1jsnca20b0fdcb62'; // Replace with your API key
 var map = new mapboxgl.Map({
   container: 'map',
   style: 'mapbox://styles/mapbox/streets-v11'
@@ -80,59 +78,74 @@ var button = document.getElementById('search'); // Define the button element
 
 button.addEventListener('click', getAirports);
 
+async function GET() {
+  try {
+    const response = await fetch('https://flight-radar1.p.rapidapi.com/airports/list?rapidapi-key=14c76f3f8amshb8be56169523917p1abdd1jsnca20b0fdcb62');
+    const airportData = await response.json();
+    console.log(airportData);
+    return airportData;
+  } catch (error) {
+    console.error('Error fetching airport data:', error);
+    return null;
+  }
+}
+
 async function getAirports() {
   const from = document.getElementById('from').value;
   const to = document.getElementById('to').value;
 
-  // First, fetch the airport data
-  try {
-    const response = await fetch(api, {
-      method: 'GET',
-      headers: {
-        'X-RapidAPI-Key': apiKey
+  // Fetch airport data
+  const airportData = await GET();
+
+  if (!airportData) {
+    return;
+  }
+
+  // Convert airport data to an array if it's not already
+  const airportArray = Array.isArray(airportData) ? airportData : Object.values(airportData);
+
+  // Filter airports based on the "From" and "To" locations
+  const filteredAirports = airportArray.filter(airport => {
+    return (
+      (airport.city === from || airport.country === from || airport.name === from) ||
+      (airport.city === to || airport.country === to || airport.name === to)
+    );
+  });
+
+  // Display filtered airports
+  console.log('Filtered Airports:', filteredAirports);
+
+  // Calculate the route and display it on the map
+  const coordinates = draw.getAll().features[0].geometry.coordinates;
+  if (coordinates.length >= 2) {
+    const routeGeoJSON = {
+      type: 'Feature',
+      properties: {},
+      geometry: {
+        type: 'LineString',
+        coordinates: coordinates
       }
-    });
-    const airportData = await response.json();
-    console.log(airportData);
+    };
 
-    // Calculate the route and display it on the map
-    const coordinates = draw.getAll().features[0].geometry.coordinates;
-    if (coordinates.length >= 2) {
-      const routeGeoJSON = {
-        type: 'Feature',
-        properties: {},
-        geometry: {
-          type: 'LineString',
-          coordinates: coordinates
-        }
-      };
-
-      if (map.getSource('route')) {
-        map.getSource('route').setData(routeGeoJSON);
-      } else {
-        map.addSource('route', { type: 'geojson', data: routeGeoJSON });
-        map.addLayer({
-          id: 'route',
-          type: 'line',
-          source: 'route',
-          layout: {
-            'line-join': 'round',
-            'line-cap': 'round'
-          },
-          paint: {
-            'line-color': '#438EE4',
-            'line-width': 4
-          }
-        });
-      }
-
-      // Now you can work with the airportData and the calculated route to display available airports.
-      // You can loop through the airportData and calculate distances from the route to display nearby airports.
-      // Add your code to display airports here.
+    if (map.getSource('route')) {
+      map.getSource('route').setData(routeGeoJSON);
     } else {
-      console.error('Please draw a valid route on the map.');
+      map.addSource('route', { type: 'geojson', data: routeGeoJSON });
+      map.addLayer({
+        id: 'route',
+        type: 'line',
+        source: 'route',
+        layout: {
+          'line-join': 'round',
+          'line-cap': 'round'
+        },
+        paint: {
+          'line-color': '#438EE4',
+          'line-width': 4
+        }
+      });
     }
-  } catch (error) {
-    console.error('Error fetching airport data:', error);
+  } else {
+    console.error('Please draw a valid route on the map.');
   }
 }
