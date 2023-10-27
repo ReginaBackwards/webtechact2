@@ -78,15 +78,11 @@
 .sidebar {
   padding: 15px;
   font-family: 'Louis George Cafe Bold';
-  min-height: 100vh;
   width: 400px;
   position: relative;
-  top: 0;
-  left: 0;
   background-color: #003366;
   transition: 0.3s;
   overflow-y: auto;
-  z-index: 1;
   text-align: center;
 }
 
@@ -101,9 +97,11 @@
 }
 
 #airportSearch{
+  border-radius: 5px;
   height: 30px;
   font-family: 'Louis George Cafe Bold';
   width: 100%;
+  border: 2px solid white;
 }
 
 #resetMap {
@@ -129,9 +127,8 @@
   margin-bottom: 15px;
 }
 
-
 #airportData {
-  max-height: 100vh;
+  max-height: 50vh;
   background-color: #003366;
   border: 2px solid #003366;
   border-radius: 5px;
@@ -140,13 +137,12 @@
 #map {
   width: 100%;
   position: relative;
-  height: 100%;
+  min-height: 100vh;
 }
 
 .map-container {
   min-height: 100vh;
   width: 100%;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), #00155080), url(./media/homepage.jpg);
   background-color: #003366;
   background-position: center;
   background-size: cover;
@@ -204,4 +200,8 @@
 
 #nearestAirportInfo p {
   margin-bottom: 5px;
+}
+
+#nearestAirportInfo {
+  display: none;
 }

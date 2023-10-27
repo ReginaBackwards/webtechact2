@@ -106,7 +106,7 @@ function createButtonsForFilteredAirports(filteredAirports) {
 function fetchAirportData() {
     fetch('https://flight-radar1.p.rapidapi.com/airports/list', {
         headers: {
-            'X-RapidAPI-Key': '14c76f3f8amshb8be56169523917p1abdd1jsnca20b0fdcb62', // Your API key
+            'X-RapidAPI-Key': '3abd92b282msh2a1fd5ea65acf66p146728jsnb1a0fb7690fd', // Your API key
         },
     })
         .then(response => response.json())
@@ -234,10 +234,13 @@ function showDistanceToAirport(fromCoordinates, airport) {
   const distance = calculateDistance(fromCoordinates, [airport.lon, airport.lat]);
   const formattedDistance = distance.toFixed(2) + ' km';
   const nearestAirportInfo = document.getElementById('nearestAirportInfo');
+  nearestAirportInfo.style.display = 'block';
 
   // Create a new paragraph element for the nearest airport
   const infoElement = document.createElement('div');
-  infoElement.innerHTML = `<h2>${airport.name}<br>${airport.iata}</h2>
+
+  //<h2>${airport.name}<br>${airport.iata}</h2>
+  infoElement.innerHTML = `
     <h3>Distance: ${formattedDistance}</h3>
     <p>City: ${airport.city}</p>
     <p>Latitude: ${airport.lat}</p>
