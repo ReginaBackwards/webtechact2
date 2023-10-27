@@ -9,24 +9,51 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style/style.css">
     <title>Document</title>
   </head>
 
   <body>
+    <section class="big-picture">
+      <div class="text-box">
+        <div class="logo">
+          <img src="/" alt="logo">
+        </div>
+        <h1>SkyLink : Connect the Skies</h1><br>
+        <p>"SkyLink is your trusted companion in the world of air travel, connecting you to the airports that truly matter. 
+          Whether you're embarking on a spontaneous adventure or meticulously planning a business trip, 
+          SkyLink serves as your gateway to seamless, hassle-free travel between any two locations. 
+          With a vast database of airports and comprehensive information, let SkyLink be your travel partner, 
+          ensuring that your journey begins and ends with convenience and confidence, no matter where you're headed."</p>
+        <br>
+      </div>
+    </section>
+
+    <section class="map-area">
     <div class="sidebar" id="sidebar">
       <div class="search-container">
-          <h2>Travel Eme</h2>
-          <!-- <input type="text" placeholder="From" id="from"> -->
+          <h2>Route</h2>
+          <input type="text" placeholder="From" id="from">
           <input type="text" placeholder="To" id="to">
           <!-- <button id="searchbtn">Search</button> -->
-          <button id="search" onclick="search">hello</button>
+          <button id="search" onclick="search">Search</button>
       </div>
     </div>
      
     <div class="map-container">
       <div id='map'></div>
     </div>
+  </section>
+
+  <div class="airport-area">
+    <h2>Airports Available</h2>
+    <p>Airport</p>
+    <p>Airport</p>
+    <p>Airport</p>
+    <p>Airport</p>
+    <p>Airport</p>
+    <p>Airport</p>
+  </div>
 
     <script src="script.js"></script>
   </body>

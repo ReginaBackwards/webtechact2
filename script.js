@@ -82,7 +82,7 @@ map.addControl(draw);
 
 
 
-button.addEventListener('click', place);
+button.addEventListener('click', GET());
 
 async function GET() {
   let x = await fetch('https://flight-radar1.p.rapidapi.com/airports/list?rapidapi-key=14c76f3f8amshb8be56169523917p1abdd1jsnca20b0fdcb62')
