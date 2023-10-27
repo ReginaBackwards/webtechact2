@@ -5,6 +5,14 @@ var map = new mapboxgl.Map({
   style: 'mapbox://styles/mapbox/streets-v11'
 });
 
+var fromMarker = new mapboxgl.Marker({
+  color: '#E74C3C'
+});
+
+var toMarker = new mapboxgl.Marker({
+  color: '#3498DB'
+});
+
 const draw = new MapboxDraw({
   // Instead of showing all the draw tools, show only the line string and delete tools.
   displayControlsDefault: false,
@@ -68,6 +76,7 @@ function removeRoute() {
   if (!map.getSource('route')) return;
   map.removeLayer('route');
   map.removeSource('route');
+  removeMarkers();
 }
 
 map.on('draw.delete', removeRoute);
@@ -90,30 +99,30 @@ async function GET() {
   }
 }
 
+async function geocodeLocation(location) {
+  try {
+    const response = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${location}.json?access_token=${mapboxgl.accessToken}`);
+    const data = await response.json();
+    const [longitude, latitude] = data.features[0].center;
+    return { latitude, longitude };
+  } catch (error) {
+    console.error(`Error geocoding location ${location}:`, error);
+    return null;
+  }
+}
+
 async function getAirports() {
   const from = document.getElementById('from').value;
   const to = document.getElementById('to').value;
 
-  // Fetch airport data
-  const airportData = await GET();
+  // Geocode "From" and "To" locations to get coordinates
+  const fromCoordinates = await geocodeLocation(from);
+  const toCoordinates = await geocodeLocation(to);
 
-  if (!airportData) {
+  if (!fromCoordinates || !toCoordinates) {
+    console.error('Error geocoding locations.');
     return;
   }
-
-  // Convert airport data to an array if it's not already
-  const airportArray = Array.isArray(airportData) ? airportData : Object.values(airportData);
-
-  // Filter airports based on the "From" and "To" locations
-  const filteredAirports = airportArray.filter(airport => {
-    return (
-      (airport.city === from || airport.country === from || airport.name === from) ||
-      (airport.city === to || airport.country === to || airport.name === to)
-    );
-  });
-
-  // Display filtered airports
-  console.log('Filtered Airports:', filteredAirports);
 
   // Calculate the route and display it on the map
   const coordinates = draw.getAll().features[0].geometry.coordinates;
@@ -145,7 +154,16 @@ async function getAirports() {
         }
       });
     }
+
+    // Place markers at "From" and "To" locations
+    fromMarker.setLngLat([fromCoordinates.longitude, fromCoordinates.latitude]).addTo(map);
+    toMarker.setLngLat([toCoordinates.longitude, toCoordinates.latitude]).addTo(map);
   } else {
     console.error('Please draw a valid route on the map.');
   }
+}
+
+function removeMarkers() {
+  fromMarker.remove();
+  toMarker.remove();
 }
