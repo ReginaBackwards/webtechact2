@@ -29,7 +29,7 @@ function createAirportButton(airport) {
         // When an airport button is clicked, zoom in on the airport's location
         map.flyTo({
             center: [airport.lon, airport.lat],
-            zoom: 12,
+            zoom: 14,
         });
 
         // Remove the previous marker
@@ -47,7 +47,7 @@ function createAirportButton(airport) {
 function addAirportMarker(airport) {
     const marker = new mapboxgl.Marker()
         .setLngLat([airport.lon, airport.lat])
-        .setPopup(new mapboxgl.Popup().setHTML(`<h3>${airport.name}</h3><p>${airport.iata}</p>`))
+        .setPopup(new mapboxgl.Popup().setHTML(`<h3>${airport.name}</h3><p>IATA: ${airport.iata}</p><p>Latitude: ${airport.lat}</p><p>Longitude: ${airport.lon}</p>`))
         .addTo(map);
 
     return marker;
@@ -77,4 +77,22 @@ function fetchAirportData() {
         .catch(error => console.error(error));
 }
 
+function fetchFlightData() {
+  const apiKey = '6aaffa04-04f5-4f58-8006-0f47f3ff2c37';
+  const apiUrl = `https://airlabs.co/api/v9/flights?api_key=${apiKey}`;
+  
+  fetch(apiUrl)
+    .then(response => response.json())
+    .then(data => {
+      // Handle the data here
+      console.log(data);
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+    });
+  
+}
+
 fetchAirportData();
+fetchFlightData();
+
