@@ -1,10 +1,7 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoicmVnaW5hYmFja3dhcmRzIiwiYSI6ImNsbnN4Y3JqcDFoM2YybW8ycTd2ZGJqZjQifQ.uKv4TTT2HDybR6e_l8UDdg';
 
 var api = 'https://flight-radar1.p.rapidapi.com/airports/list';
-var city = '';
-var apiKey = '?rapidapi-key=14c76f3f8amshb8be56169523917p1abdd1jsnca20b0fdcb62';
-var button = document.querySelector('#search');
-
+var apiKey = '?rapidapi-key=14c76f3f8amshb8be56169523917p1abdd1jsnca20b0fdcb62'; // Replace with your API key
 var map = new mapboxgl.Map({
   container: 'map',
   style: 'mapbox://styles/mapbox/streets-v11'
@@ -75,45 +72,67 @@ function removeRoute() {
   map.removeSource('route');
 }
 
-
 map.on('draw.delete', removeRoute);
 map.addControl(new mapboxgl.NavigationControl());
 map.addControl(draw);
 
+var button = document.getElementById('search'); // Define the button element
 
+button.addEventListener('click', getAirports);
 
-button.addEventListener('click', GET());
+async function getAirports() {
+  const from = document.getElementById('from').value;
+  const to = document.getElementById('to').value;
 
-async function GET() {
-  let x = await fetch('https://flight-radar1.p.rapidapi.com/airports/list?rapidapi-key=14c76f3f8amshb8be56169523917p1abdd1jsnca20b0fdcb62')
-  let y = await x.text();
-  console.log(y);
-    // .then((Response) => Response.json())
-    // .then((json) => console.log(json))
-}
-
-// function search() {
-//   var button = select('search');
-//   button.mousePressed(place);
-// }
-
-function place() {
-  const to = document.getElementById("to").value;
-  // const airportCountry = new Promise((resolve, reject) => {
-
-  //   setTimeout(() => {
-      for (let i = 0; i < GET.length; i++) {
-          if (to = GET.country) {
-          console.log(GET);
-          resolve(GET);
-        } else {
-        reject(console.log('Invalid Country'));
+  // First, fetch the airport data
+  try {
+    const response = await fetch(api, {
+      method: 'GET',
+      headers: {
+        'X-RapidAPI-Key': apiKey
       }
-    }
-//   }, 500)
-// });
-  
-  // loadJson(url, Data);
-  // console.log(loadJson);
+    });
+    const airportData = await response.json();
+    console.log(airportData);
 
+    // Calculate the route and display it on the map
+    const coordinates = draw.getAll().features[0].geometry.coordinates;
+    if (coordinates.length >= 2) {
+      const routeGeoJSON = {
+        type: 'Feature',
+        properties: {},
+        geometry: {
+          type: 'LineString',
+          coordinates: coordinates
+        }
+      };
+
+      if (map.getSource('route')) {
+        map.getSource('route').setData(routeGeoJSON);
+      } else {
+        map.addSource('route', { type: 'geojson', data: routeGeoJSON });
+        map.addLayer({
+          id: 'route',
+          type: 'line',
+          source: 'route',
+          layout: {
+            'line-join': 'round',
+            'line-cap': 'round'
+          },
+          paint: {
+            'line-color': '#438EE4',
+            'line-width': 4
+          }
+        });
+      }
+
+      // Now you can work with the airportData and the calculated route to display available airports.
+      // You can loop through the airportData and calculate distances from the route to display nearby airports.
+      // Add your code to display airports here.
+    } else {
+      console.error('Please draw a valid route on the map.');
+    }
+  } catch (error) {
+    console.error('Error fetching airport data:', error);
+  }
 }
