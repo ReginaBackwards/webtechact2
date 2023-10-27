@@ -3,6 +3,11 @@
   src: url('./fonts/Louis\ George\ Cafe\ Bold.ttf');
 }
 
+@font-face {
+  font-family: 'Rowdies Regular';
+  src: url('./fonts/Rowdies\ Regular.ttf');
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -36,16 +41,15 @@
 }
 
 .text-box h1 {
-  font-family: 'Louis George Cafe Bold';
+  font-family: 'Rowdies Regular';
   font-size: 62px;
 }
 
 .text-box p {
   font-family: 'Louis George Cafe Bold';
-  font-size: 20px;
+  font-size: 17px;
   margin-bottom: 50px;
 }
-
 
 #hero-btn {
   font-family: 'Louis George Cafe Bold';
@@ -61,10 +65,10 @@
   background-color: #00155080;
 }
 
-.hero-btn:hover {
+#hero-btn:hover {
   color: black;
   background-color: rgb(152, 150, 148);
-  transition: 1s;
+  transition: 0.5s;
 }
 
 .map-area {
@@ -72,20 +76,65 @@
 }
 
 .sidebar {
+  padding: 15px;
   font-family: 'Louis George Cafe Bold';
   min-height: 100vh;
   width: 400px;
   position: relative;
   top: 0;
   left: 0;
-  background-color: #EFE9E1;
+  background-color: #003366;
   transition: 0.3s;
   overflow-y: auto;
   z-index: 1;
+  text-align: center;
 }
 
-#airport-data {
-  min-height: 100vh;
+.sidebar h2 {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  color: #ffffff;;
+}
+
+ #searchBox {
+  margin-bottom: 15px;
+}
+
+#airportSearch{
+  height: 30px;
+  font-family: 'Louis George Cafe Bold';
+  width: 100%;
+}
+
+#resetMap {
+  font-family: 'Louis George Cafe Bold';
+  display: inline-block;
+  text-decoration: none;
+  color: white;
+  border: 2px solid white;
+  border-radius: 10px;
+  padding: 7px 25px;
+  font-size: 14px;
+  position: relative;
+  font-weight: bold;
+  background-color: #00155080;
+  margin-bottom: 15px;
+}
+
+#resetMap:hover {
+  font-family: 'Louis George Cafe Bold';
+  color: black;
+  background-color: rgb(152, 150, 148);
+  transition: 0.5s;
+  margin-bottom: 15px;
+}
+
+
+#airportData {
+  max-height: 100vh;
+  background-color: #003366;
+  border: 2px solid #003366;
+  border-radius: 5px;
 }
 
 #map {
@@ -98,24 +147,61 @@
   min-height: 100vh;
   width: 100%;
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), #00155080), url(./media/homepage.jpg);
-  background-color: #EFE9E1;
+  background-color: #003366;
   background-position: center;
   background-size: cover;
   position: relative;
 }
 
-ul {
-  list-style: none;
-  padding: 0;
-}
-
-li {
-  margin: 10px 0;
-}
-
 #airportData button {
+  padding: 10px;
+  border: 2px solid white;
+  border-radius: 10px;
   display: block;
   margin-bottom: 5px;
   width: 100%;
-  font-family: 'Louis George Cafe Bold';
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-weight: 900;
+  color: #003366;
+  background-color: #ffaa80;
+}
+
+#airportData button:hover {
+  transition: 0.5s;
+  border: 2px solid rgb(170, 197, 255);
+  border-radius: 10px;
+  display: block;
+  margin-bottom: 5px;
+  width: 100%;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  color: #003366;
+  background-color: wheat;
+}
+
+#nearestAirportInfo {
+  text-align: left;
+  padding: 10px;
+  border: 2px solid white;
+  border-radius: 10px;
+  display: block;
+  margin-bottom: 5px;
+  width: 100%;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-weight: 900;
+  color: #003366;
+  background-color: #ffffffd2;
+}
+
+#nearestAirportInfo h2 {
+  text-align: center;
+  color: #003366;
+}
+
+#nearestAirportInfo h3 {
+  color: #ff0000;
+  margin-bottom: 15px;
+}
+
+#nearestAirportInfo p {
+  margin-bottom: 5px;
 }

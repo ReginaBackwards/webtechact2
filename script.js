@@ -25,7 +25,7 @@ function createAirportButton(airport) {
     const airportList = document.getElementById('airportData');
 
     const airportButton = document.createElement('button');
-    airportButton.textContent = `${airport.name} - ${airport.iata}`;
+    airportButton.innerHTML = `${airport.name}<br>${airport.iata}`;
     airportButton.addEventListener('click', () => {
         // When an airport button is clicked, zoom in on the airport's location
         map.flyTo({
@@ -233,14 +233,11 @@ function drawLineToAirport(fromCoordinates, airport) {
 function showDistanceToAirport(fromCoordinates, airport) {
   const distance = calculateDistance(fromCoordinates, [airport.lon, airport.lat]);
   const formattedDistance = distance.toFixed(2) + ' km';
-
   const nearestAirportInfo = document.getElementById('nearestAirportInfo');
 
   // Create a new paragraph element for the nearest airport
   const infoElement = document.createElement('div');
-  // infoElement.textContent = `${airport.name} - Distance: ${formattedDistance}`;
-
-  infoElement.innerHTML = `<h2>${airport.name} - ${airport.iata}</h2>
+  infoElement.innerHTML = `<h2>${airport.name}<br>${airport.iata}</h2>
     <h3>Distance: ${formattedDistance}</h3>
     <p>City: ${airport.city}</p>
     <p>Latitude: ${airport.lat}</p>
