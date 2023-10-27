@@ -72,16 +72,20 @@ const draw = new MapboxDraw({
   ]
 });
 
-function removeRoute() {
-  if (!map.getSource('route')) return;
-  map.removeLayer('route');
-  map.removeSource('route');
-  removeMarkers();
+function removeRouteAndMarkers() {
+  if (map.getSource('route')) {
+    map.removeLayer('route');
+    map.removeSource('route');
+  }
+  fromMarker.remove();
+  toMarker.remove();
 }
 
-map.on('draw.delete', removeRoute);
+map.on('draw.delete', removeRouteAndMarkers);
+
 map.addControl(new mapboxgl.NavigationControl());
 map.addControl(draw);
+
 
 var button = document.getElementById('search'); // Define the button element
 
@@ -98,6 +102,7 @@ async function GET() {
     return null;
   }
 }
+
 
 async function geocodeLocation(location) {
   try {
@@ -136,6 +141,12 @@ async function getAirports() {
       }
     };
 
+    // Zoom to the extent of the route
+    map.fitBounds([
+      fromCoordinates,
+      toCoordinates,
+    ]);
+
     if (map.getSource('route')) {
       map.getSource('route').setData(routeGeoJSON);
     } else {
@@ -162,7 +173,6 @@ async function getAirports() {
     console.error('Please draw a valid route on the map.');
   }
 }
-
 function removeMarkers() {
   fromMarker.remove();
   toMarker.remove();
