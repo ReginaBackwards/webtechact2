@@ -89,14 +89,15 @@
 .sidebar h2 {
   margin-top: 15px;
   margin-bottom: 15px;
-  color: #ffffff;;
+  color: #ffffff;
+  ;
 }
 
- #searchBox {
+#searchBox {
   margin-bottom: 15px;
 }
 
-#airportSearch{
+#airportSearch {
   border-radius: 5px;
   height: 30px;
   font-family: 'Louis George Cafe Bold';
@@ -156,7 +157,7 @@
   display: block;
   margin-bottom: 5px;
   width: 100%;
-  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   font-weight: 900;
   color: #003366;
   background-color: #ffaa80;
@@ -169,7 +170,7 @@
   display: block;
   margin-bottom: 5px;
   width: 100%;
-  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   color: #003366;
   background-color: wheat;
 }
@@ -182,15 +183,10 @@
   display: block;
   margin-bottom: 5px;
   width: 100%;
-  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   font-weight: 900;
   color: #003366;
   background-color: #ffffffd2;
-}
-
-#nearestAirportInfo h2 {
-  text-align: center;
-  color: #003366;
 }
 
 #nearestAirportInfo h3 {

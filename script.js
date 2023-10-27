@@ -27,7 +27,7 @@ function createAirportButton(airport) {
     const airportButton = document.createElement('button');
     airportButton.innerHTML = `${airport.name}<br>${airport.iata}`;
     airportButton.addEventListener('click', () => {
-        // When an airport button is clicked, zoom in on the airport's location
+        // Zoom in on the location of an airport when clicked
         map.flyTo({
             center: [airport.lon, airport.lat],
             zoom: 14,
@@ -37,13 +37,14 @@ function createAirportButton(airport) {
     airportList.appendChild(airportButton);
 }
 
+
+
 // Function to add a marker for an airport
 function addAirportMarker(airport) {
     const marker = new mapboxgl.Marker()
         .setLngLat([airport.lon, airport.lat])
         .setPopup(new mapboxgl.Popup().setHTML(`<h3>${airport.name}</h3><p>IATA: ${airport.iata}</p><p>Latitude: ${airport.lat}</p><p>Longitude: ${airport.lon}</p>`))
         .addTo(map);
-
     return marker;
 }
 
@@ -106,7 +107,7 @@ function createButtonsForFilteredAirports(filteredAirports) {
 function fetchAirportData() {
     fetch('https://flight-radar1.p.rapidapi.com/airports/list', {
         headers: {
-            'X-RapidAPI-Key': '3abd92b282msh2a1fd5ea65acf66p146728jsnb1a0fb7690fd', // Your API key
+            'X-RapidAPI-Key': '3abd92b282msh2a1fd5ea65acf66p146728jsnb1a0fb7690fd',
         },
     })
         .then(response => response.json())
@@ -132,9 +133,6 @@ searchInput.addEventListener('input', handleSearchInputChange);
 
 fetchAirportData();
 
-// ... (previous code)
-
-// Update the findNearestAirportAndDrawLine function
 function findNearestAirportAndDrawLine(coordinates) {
   const nearestAirport = findNearestAirport(coordinates);
 
@@ -152,7 +150,6 @@ function findNearestAirportAndDrawLine(coordinates) {
   // Create a button for the nearest airport
   createAirportButton(nearestAirport);
 }
-
 
 // Function to calculate the distance between two sets of coordinates
 function calculateDistance(coord1, coord2) {
@@ -185,7 +182,6 @@ function findNearestAirport(coordinates) {
 
   return sortedAirports[0];
 }
-
 
 // Function to draw a line to an airport
 function drawLineToAirport(fromCoordinates, airport) {
@@ -239,7 +235,6 @@ function showDistanceToAirport(fromCoordinates, airport) {
   // Create a new paragraph element for the nearest airport
   const infoElement = document.createElement('div');
 
-  //<h2>${airport.name}<br>${airport.iata}</h2>
   infoElement.innerHTML = `
     <h3>Distance: ${formattedDistance}</h3>
     <p>City: ${airport.city}</p>
