@@ -72,20 +72,16 @@ const draw = new MapboxDraw({
   ]
 });
 
-function removeRouteAndMarkers() {
-  if (map.getSource('route')) {
-    map.removeLayer('route');
-    map.removeSource('route');
-  }
-  fromMarker.remove();
-  toMarker.remove();
+function removeRoute() {
+  if (!map.getSource('route')) return;
+  map.removeLayer('route');
+  map.removeSource('route');
+  removeMarkers();
 }
 
-map.on('draw.delete', removeRouteAndMarkers);
-
+map.on('draw.delete', removeRoute);
 map.addControl(new mapboxgl.NavigationControl());
 map.addControl(draw);
-
 
 var button = document.getElementById('search'); // Define the button element
 
@@ -102,7 +98,6 @@ async function GET() {
     return null;
   }
 }
-
 
 async function geocodeLocation(location) {
   try {
@@ -129,51 +124,89 @@ async function getAirports() {
     return;
   }
 
-  // Calculate the route and display it on the map
-  const coordinates = draw.getAll().features[0].geometry.coordinates;
-  if (coordinates.length >= 2) {
-    const routeGeoJSON = {
-      type: 'Feature',
-      properties: {},
-      geometry: {
-        type: 'LineString',
-        coordinates: coordinates
-      }
-    };
+  // Zoom to the extent of the "From" and "To" locations
+  const bounds = new mapboxgl.LngLatBounds()
+    .extend([fromCoordinates.longitude, fromCoordinates.latitude])
+    .extend([toCoordinates.longitude, toCoordinates.latitude]);
 
-    // Zoom to the extent of the route
-    map.fitBounds([
-      fromCoordinates,
-      toCoordinates,
-    ]);
+  map.fitBounds(bounds, { padding: 50 });
 
-    if (map.getSource('route')) {
-      map.getSource('route').setData(routeGeoJSON);
-    } else {
-      map.addSource('route', { type: 'geojson', data: routeGeoJSON });
-      map.addLayer({
-        id: 'route',
-        type: 'line',
-        source: 'route',
-        layout: {
-          'line-join': 'round',
-          'line-cap': 'round'
-        },
-        paint: {
-          'line-color': '#438EE4',
-          'line-width': 4
-        }
-      });
+  // Place markers at "From" and "To" locations
+  fromMarker.setLngLat([fromCoordinates.longitude, fromCoordinates.latitude]).addTo(map);
+  toMarker.setLngLat([toCoordinates.longitude, toCoordinates.latitude]).addTo(map);
+
+  // Draw a line between "From" and "To" locations
+  const routeGeoJSON = {
+    type: 'Feature',
+    properties: {},
+    geometry: {
+      type: 'LineString',
+      coordinates: [
+        [fromCoordinates.longitude, fromCoordinates.latitude],
+        [toCoordinates.longitude, toCoordinates.latitude]
+      ]
     }
+  };
 
-    // Place markers at "From" and "To" locations
-    fromMarker.setLngLat([fromCoordinates.longitude, fromCoordinates.latitude]).addTo(map);
-    toMarker.setLngLat([toCoordinates.longitude, toCoordinates.latitude]).addTo(map);
+  if (map.getSource('route')) {
+    map.getSource('route').setData(routeGeoJSON);
   } else {
-    console.error('Please draw a valid route on the map.');
+    map.addSource('route', { type: 'geojson', data: routeGeoJSON });
+    map.addLayer({
+      id: 'route',
+      type: 'line',
+      source: 'route',
+      layout: {
+        'line-join': 'round',
+        'line-cap': 'round'
+      },
+      paint: {
+        'line-color': '#438EE4',
+        'line-width': 4
+      }
+    });
   }
 }
+
 function removeMarkers() {
   fromMarker.remove();
   toMarker.remove();
 }
+
+
+
+
+  // Calculate the route and display it on the map
+  // const coordinates = draw.getAll().features[0].geometry.coordinates;
+  // if (coordinates.length >= 2) {
+  //   const routeGeoJSON = {
+  //     type: 'Feature',
+  //     properties: {},
+  //     geometry: {
+  //       type: 'LineString',
+  //       coordinates: coordinates
+  //     }
+  //   };
+
+  //   if (map.getSource('route')) {
+  //     map.getSource('route').setData(routeGeoJSON);
+  //   } else {
+  //     map.addSource('route', { type: 'geojson', data: routeGeoJSON });
+  //     map.addLayer({
+  //       id: 'route',
+  //       type: 'line',
+  //       source: 'route',
+  //       layout: {
+  //         'line-join': 'round',
+  //         'line-cap': 'round'
+  //       },
+  //       paint: {
+  //         'line-color': '#438EE4',
+  //         'line-width': 4
+  //       }
+  //     });
+  //   }
+// CODE NG MARKERS
+  // } else {
+  //   console.error('Please draw a valid route on the map.');
+  // }
