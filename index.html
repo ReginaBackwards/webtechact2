@@ -27,35 +27,37 @@
           With a vast database of airports and comprehensive information, let SkyLink be your travel partner, 
           ensuring that your journey begins and ends with convenience and confidence, no matter where you're headed."</p>
         <br>
+        <a href="#map-section" id="hero-btn">Get Started</a>
       </div>
     </section>
 
-    <section class="map-area">
+    <section class="map-area" id="map-section">
     <div class="sidebar" id="sidebar">
       <div class="search-container">
           <h2>Route</h2>
           <input type="text" placeholder="From" id="from">
           <input type="text" placeholder="To" id="to">
-          <!-- <button id="searchbtn">Search</button> -->
           <button id="search" onclick="search">Search</button>
       </div>
+      <div class="distance">
+        <h2>Distance:</h2>
+      </div>
+      <div class="airport-area">
+        <h2>Airports Available:</h2>
+        <p>Airport</p>
+        <p>Airport</p>
+        <p>Airport</p>
+        <p>Airport</p>
+        <p>Airport</p>
+        <p>Airport</p>
+      </div>    
     </div>
-     
     <div class="map-container">
       <div id='map'></div>
     </div>
   </section>
 
-  <div class="airport-area">
-    <h2>Airports Available</h2>
-    <p>Airport</p>
-    <p>Airport</p>
-    <p>Airport</p>
-    <p>Airport</p>
-    <p>Airport</p>
-    <p>Airport</p>
-  </div>
-
+  
     <script src="script.js"></script>
   </body>
 </html>
