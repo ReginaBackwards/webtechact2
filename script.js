@@ -77,22 +77,5 @@ function fetchAirportData() {
         .catch(error => console.error(error));
 }
 
-function fetchFlightData() {
-  const apiKey = '6aaffa04-04f5-4f58-8006-0f47f3ff2c37';
-  const apiUrl = `https://airlabs.co/api/v9/flights?api_key=${apiKey}`;
-  
-  fetch(apiUrl)
-    .then(response => response.json())
-    .then(data => {
-      // Handle the data here
-      console.log(data);
-    })
-    .catch(error => {
-      console.error('Error fetching data:', error);
-    });
-  
-}
-
 fetchAirportData();
-fetchFlightData();
 
