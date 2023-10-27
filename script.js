@@ -37,7 +37,7 @@ function createAirportButton(airport) {
             currentMarker.remove();
         }
 
-        // Add a marker for the selected airport
+        // Add a marker for the selected airport with a pop-up
         currentMarker = addAirportMarker(airport);
     });
 
