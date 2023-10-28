@@ -3,6 +3,17 @@
  Description: Mapbox Access Token
 */
 mapboxgl.accessToken = 'pk.eyJ1IjoicmVnaW5hYmFja3dhcmRzIiwiYSI6ImNsbnN4Y3JqcDFoM2YybW8ycTd2ZGJqZjQifQ.uKv4TTT2HDybR6e_l8UDdg';
+// initialization of variables/objects needed in the functions
+const resetButton = document.getElementById('resetMap');
+resetButton.addEventListener('click', resetMap);
+let currentMarkers = []; //for storing active markers on the map to aid in filtering
+let airports = []; //for storing the list of airports
+const searchInput = document.getElementById('airportSearch');
+searchInput.addEventListener('input', handleSearchInputChange);
+let redMarker = null;
+let previousNearestAirport = null;
+let lineId = null;
+fetchAirportData(); //fetches the information of the airports information from the API
 
 /*
  Author:
@@ -18,10 +29,6 @@ const map = new mapboxgl.Map({
     [128.0, 21.5] //maximum longitude and latitue coordinates for the PH
   ],
 });
-
-
-let currentMarkers = []; //for storing active markers on the map to aid in filtering
-let airports = []; //for storing the list of airports
 
 /*
  Author:
@@ -72,7 +79,7 @@ function handleSearchInputChange() {
   const searchInput = document.getElementById('airportSearch');
   const searchQuery = searchInput.value.toLowerCase();
   const filteredAirports = airports.filter(airport => airport.name.toLowerCase().includes(searchQuery));
-  // Clear existing markers and airport buttons t
+  // Clear existing markers and airport buttons
   clearMarkers();
   clearAirportButtons();
   // Show only the mmarkers for filtered airports and buttons for the list
@@ -150,15 +157,10 @@ function fetchAirportData() {
     .catch(error => console.error(error));
 }
 
-// Add event listener to search input
-const searchInput = document.getElementById('airportSearch');
-searchInput.addEventListener('input', handleSearchInputChange);
-
-fetchAirportData();
-
 /*
  Author:
- Description: 
+ Description: calls the different functions to find the nearest airport based on the location clicked, draws the line,
+ and dispays that airports button and information
 */
 function findNearestAirportAndDrawLine(coordinates) {
   const nearestAirport = findNearestAirport(coordinates);
@@ -193,9 +195,12 @@ function calculateDistance(coord1, coord2) {
   return distance;
 }
 
-// Function to find the nearest airports
+/*
+ Author:
+ Description: returns the airport that has the least distance to the coordinates argument
+*/
 function findNearestAirport(coordinates) {
-  const sortedAirports = airports.slice(); // Copy the airports array
+  const sortedAirports = airports.slice();
   sortedAirports.sort((a, b) => {
     const distanceA = calculateDistance(coordinates, [a.lon, a.lat]);
     const distanceB = calculateDistance(coordinates, [b.lon, b.lat]);
@@ -205,58 +210,16 @@ function findNearestAirport(coordinates) {
   return sortedAirports[0];
 }
 
-// Function to draw a line to an airport
-function drawLineToAirport(fromCoordinates, airport) {
-  const lineId = `lineToAirport${airport.iata}`; // Use a unique identifier based on the airport IATA code
-
-  // Check if the source exists and remove it
-  if (map.getSource(lineId)) {
-    map.removeSource(lineId);
-  }
-
-  // Check if the layer exists and remove it
-  if (map.getLayer(lineId)) {
-    map.removeLayer(lineId);
-  }
-
-  const lineGeoJSON = {
-    type: 'Feature',
-    geometry: {
-      type: 'LineString',
-      coordinates: [fromCoordinates, [airport.lon, airport.lat]],
-    },
-  };
-
-  map.addSource(lineId, {
-    type: 'geojson',
-    data: lineGeoJSON,
-  });
-
-  map.addLayer({
-    id: lineId,
-    type: 'line',
-    source: lineId,
-    layout: {
-      'line-join': 'round',
-      'line-cap': 'round',
-    },
-    paint: {
-      'line-color': 'blue',
-      'line-width': 3,
-    },
-  });
-}
-
-// Function to show the distance to an airport
+/*
+ Author:
+ Description: display the distance and the information of the nearest airport
+*/
 function showDistanceToAirport(fromCoordinates, airport) {
   const distance = calculateDistance(fromCoordinates, [airport.lon, airport.lat]);
   const formattedDistance = distance.toFixed(2) + ' km';
   const nearestAirportInfo = document.getElementById('nearestAirportInfo');
   nearestAirportInfo.style.display = 'block';
-
-  // Create a new paragraph element for the nearest airport
   const infoElement = document.createElement('div');
-
   infoElement.innerHTML = `
     <h3>Distance: ${formattedDistance}</h3>
     <p>City: ${airport.city}</p>
@@ -265,15 +228,14 @@ function showDistanceToAirport(fromCoordinates, airport) {
     <p>Country: ${airport.country}</p>
     <p>Altitude: ${airport.alt} meters</p>
     <p>Timezone: ${airport.timezone.name} (${airport.timezone.abbr})</p>`;
-
   nearestAirportInfo.appendChild(infoElement);
 }
 
-let redMarker = null;
-let previousNearestAirport = null;
-let lineId = null;
 
-// Function to remove the line
+/*
+ Author:
+ Description: remove a line on the map using its lineId if it exists
+*/
 function removeLine() {
   if (lineId && map.getLayer(lineId)) {
     map.removeLayer(lineId);
@@ -283,7 +245,10 @@ function removeLine() {
   }
 }
 
-// Function to clear the nearest airport information
+/*
+ Author:
+ Description: removes the contents of the nearestAirportInfo (called when a new location is clicked)
+*/
 function clearNearestAirportInfo() {
   const nearestAirportInfo = document.getElementById('nearestAirportInfo');
   while (nearestAirportInfo.firstChild) {
@@ -291,39 +256,41 @@ function clearNearestAirportInfo() {
   }
 }
 
+/*
+Author:
+Description: event handler when the user clicks on the map
+- clears previous info from previous click (including line to previous nearest airport)
+- adds a red marker at the clicked location
+- creates a new line towards the nearest airport
+*/
 map.on('click', (e) => {
   const coordinates = e.lngLat.toArray();
-
-  // Clear previous nearest airport info and red marker
   clearNearestAirportInfo();
   if (redMarker) {
     redMarker.remove();
   }
-
-  // Remove the previous line
   removeLine();
-
-  // Add a red marker at the clicked location
   redMarker = new mapboxgl.Marker({ color: 'red' })
     .setLngLat(coordinates)
     .addTo(map);
-
-  // Create a unique line ID based on the current timestamp
   lineId = `lineToAirport${Date.now()}`;
-
   findNearestAirportAndDrawLine(coordinates);
 });
 
-// Function to draw a line to an airport
+/*
+Author:
+Description: Function to draw a line between the fromCoordinates(coordinates of clicked location) to 
+the coordinates of 'airport' (nearest airport)
+*/
 function drawLineToAirport(fromCoordinates, airport) {
-  // Check if the source and layer with the same ID exist and remove them
+  // checks if the source and layer with the same ID exist and remove them
   if (map.getSource(lineId)) {
     map.removeSource(lineId);
   }
   if (map.getLayer(lineId)) {
     map.removeLayer(lineId);
   }
-
+  // initiates and draws the line
   const lineGeoJSON = {
     type: 'Feature',
     geometry: {
@@ -331,12 +298,10 @@ function drawLineToAirport(fromCoordinates, airport) {
       coordinates: [fromCoordinates, [airport.lon, airport.lat]],
     },
   };
-
   map.addSource(lineId, {
     type: 'geojson',
     data: lineGeoJSON,
   });
-
   map.addLayer({
     id: lineId,
     type: 'line',
@@ -359,5 +324,3 @@ function drawLineToAirport(fromCoordinates, airport) {
 function resetMap() {
   location.reload();
 }
-const resetButton = document.getElementById('resetMap');
-resetButton.addEventListener('click', resetMap);
