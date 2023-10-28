@@ -333,24 +333,5 @@ function resetMap() {
   // Reload the page
   location.reload();
 }
-
 const resetButton = document.getElementById('resetMap');
 resetButton.addEventListener('click', resetMap);
-
-//DISTANCE CALCULATOR
-const url = 'https://distanceto.p.rapidapi.com/get?route=%3CREQUIRED%3E&car=false';
-const options = {
-	method: 'GET',
-	headers: {
-		'X-RapidAPI-Key': '5961500a36msh3cbc952aea0b074p1ab40djsn8a69499a3604',
-		'X-RapidAPI-Host': 'distanceto.p.rapidapi.com'
-	}
-};
-
-try {
-	const response = await fetch(url, options);
-	const result = await response.text();
-	console.log(result);
-} catch (error) {
-	console.error(error);
-}
