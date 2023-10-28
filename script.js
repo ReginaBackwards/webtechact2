@@ -160,6 +160,31 @@ function fetchAirportData() {
     .catch(error => console.error(error));
 }
 
+// Function to load JSON data and display airport image
+function loadAirportImage(airportCode) {
+  fetch('airports.json')
+    .then(response => response.json())
+    .then(data => {
+      const airportsData = data.airports;
+      const imagePath = airportsData[airportCode]?.imagePath;
+
+      if (imagePath) {
+        // Create an img element and set its src attribute
+        const imgElement = document.createElement('img');
+        imgElement.src = imagePath;
+        imgElement.alt = airportCode;
+
+        // Add the img element to a container div
+        const imageContainer = document.getElementById('airportImage');
+        imageContainer.innerHTML = '';
+        imageContainer.appendChild(imgElement);
+      } else {
+        console.error('Image path not found for airport:', airportCode);
+      }
+    })
+    .catch(error => console.error(error));
+}
+
 /*
  Authors: Janbert Dela Cruz, America Slay
  Description: calls the different functions to find the nearest airport based on the location clicked, draws the line,
@@ -175,6 +200,8 @@ function findNearestAirportAndDrawLine(coordinates) {
   drawLineToAirport(coordinates, nearestAirport);
   showDistanceToAirport(coordinates, nearestAirport);
   createAirportButton(nearestAirport);
+
+  loadAirportImage(nearestAirport.iata);
 }
 
 /*

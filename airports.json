@@ -1,0 +1,148 @@
+{
+  "airports": {
+    "CRK": {
+      "imagePath": "style/media/CRK.png"
+    },
+    "BCD": {
+      "imagePath": "style/media/BCD.jpg"
+    },
+    "BAG": {
+      "imagePath": "style/media/BAG.jpeg"
+    },
+    "BPA": {
+      "imagePath": "style/media/BPA.jpeg"
+    },
+    "USU": {
+      "imagePath": "style/media/USU.jpeg"
+    },
+    "BXU": {
+      "imagePath": "style/media/BXU.jpg"
+    },
+    "CGY": {
+      "imagePath": "style/media/CGY.jpeg"
+    },
+    "CYP": {
+      "imagePath": "style/media/CYP.jpeg"
+    },
+    "CRM": {
+      "imagePath": "style/media/CRM.jpeg"
+    },
+    "MPH": {
+      "imagePath": "style/media/MPH.jpeg"
+    },
+    "CYZ": {
+      "imagePath": "style/media/CYZ.jpg"
+    },
+    "CEB": {
+      "imagePath": "style/media/CEB.jpeg"
+    },
+    "CBO": {
+      "imagePath": "style/media/CBO.jpg"
+    },
+    "CYU": {
+      "imagePath": "style/media/CYU.jpeg"
+    },
+    "DVO": {
+      "imagePath": "style/media/DVO.jpeg"
+    },
+    "IAO": {
+      "imagePath": "style/media/IAO.jpeg"
+    },
+    "DPL": {
+      "imagePath": "style/media/DPL.jpeg"
+    },
+    "DGT": {
+      "imagePath": "style/media/DGT.jpeg"
+    },
+    "ENI": {
+      "imagePath": "style/media/ENI.jpeg"
+    },
+    "MRQ": {
+      "imagePath": "style/media/MRQ.jpeg"
+    },
+    "GES": {
+      "imagePath": "style/media/GES.jpg"
+    },
+    "ILO": {
+      "imagePath": "style/media/ILO.jpeg"
+    },
+    "KLO": {
+      "imagePath": "style/media/KLO.jpeg"
+    },
+    "LAO": {
+      "imagePath": "style/media/LAO.jpg"
+    },
+    "DRP": {
+      "imagePath": "style/media/DRP.jpg"
+    },
+    "CGM": {
+      "imagePath": "style/media/CGM.jpg"
+    },
+    "MBO": {
+      "imagePath": "style/media/MBO.jpg"
+    },
+    "MNL": {
+      "imagePath": "style/media/MNL.jpg"
+    },
+    "MBT": {
+      "imagePath": "style/media/MBT.jpg"
+    },
+    "WNP": {
+      "imagePath": "style/media/WNP.jpg"
+    },
+    "PMC": {
+      "imagePath": "style/media/PMC.jpg"
+    },
+    "OZC": {
+      "imagePath": "style/media/OZC.jpg"
+    },
+    "OMC": {
+      "imagePath": "style/media/OMC.jpg"
+    },
+    "PAG": {
+      "imagePath": "style/media/PAG.jpg"
+    },
+    "TAG": {
+      "imagePath": "style/media/TAG.jpg"
+    },
+    "PPS": {
+      "imagePath": "style/media/PPS.jpg"
+    },
+    "RXS": {
+      "imagePath": "style/media/RXS.jpg"
+    },
+    "SJI": {
+      "imagePath": "style/media/SJI.jpg"
+    },
+    "EUQ": {
+      "imagePath": "style/media/EUQ.jpg"
+    },
+    "SWL": {
+      "imagePath": "style/media/SWL.jpg"
+    },
+    "SFS": {
+      "imagePath": "style/media/SFS.png"
+    },
+    "SUG": {
+      "imagePath": "style/media/SUG.jpg"
+    },
+    "TBH": {
+      "imagePath": "style/media/TBH.jpg"
+    },
+    "TAC": {
+      "imagePath": "style/media/TAC.jpg"
+    },
+    "TWT": {
+      "imagePath": "style/media/TWT.jpg"
+    },
+    "TUG": {
+      "imagePath": "style/media/TUG.jpg"
+    },
+    "VRC": {
+      "imagePath": "style/media/VRC.jpg"
+    },
+    "ZAM": {
+      "imagePath": "style/media/ZAM.jpg"
+    }
+  }
+}
