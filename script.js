@@ -1,43 +1,50 @@
+/*
+ Author:
+ Description: Mapbox Access Token
+*/
 mapboxgl.accessToken = 'pk.eyJ1IjoicmVnaW5hYmFja3dhcmRzIiwiYSI6ImNsbnN4Y3JqcDFoM2YybW8ycTd2ZGJqZjQifQ.uKv4TTT2HDybR6e_l8UDdg';
-const philippinesBounds = {
-  latMin: 4.5,
-  latMax: 21.5,
-  lonMin: 115.0,
-  lonMax: 128.0,
-};
 
+/*
+ Author:
+ Description: Limits the bounds of the mapbox view to the Philippines
+*/
 const map = new mapboxgl.Map({
   container: 'map',
   style: 'mapbox://styles/mapbox/streets-v11',
   center: [121, 13],
   zoom: 7,
   maxBounds: [
-    [philippinesBounds.lonMin, philippinesBounds.latMin],
-    [philippinesBounds.lonMax, philippinesBounds.latMax]
+    [115.0, 4.5], //minimum longitude and latitude cooridinates for the PH
+    [128.0, 21.5] //maximum longitude and latitue coordinates for the PH
   ],
 });
 
-let currentMarkers = [];
-let airports = [];
 
-// Function to create an airport button
+let currentMarkers = []; //for storing active markers on the map to aid in filtering
+let airports = []; //for storing the list of airports
+
+/*
+ Author:
+ Description: Creates a button and its on-click listener for an airport coming from the API
+*/
 function createAirportButton(airport) {
   const airportList = document.getElementById('airportData');
-
   const airportButton = document.createElement('button');
   airportButton.innerHTML = `${airport.name}<br>${airport.iata}`;
+  // to zoom in on the location of an airport when clicked
   airportButton.addEventListener('click', () => {
-    // Zoom in on the location of an airport when clicked
     map.flyTo({
       center: [airport.lon, airport.lat],
       zoom: 14,
     });
   });
-
   airportList.appendChild(airportButton);
 }
 
-// Function to add a marker for an airport
+/*
+ Author:
+ Description: Adds a blue marker to an airport on the map using its coordinates
+*/
 function addAirportMarker(airport) {
   const marker = new mapboxgl.Marker()
     .setLngLat([airport.lon, airport.lat])
@@ -46,7 +53,10 @@ function addAirportMarker(airport) {
   return marker;
 }
 
-// Function to create markers for all airports
+/*
+ Author:
+ Description: calls the addAirportMarker function repeatedly to create a blue marker for all airports on the map
+*/
 function createMarkersForAllAirports() {
   airports.forEach(airport => {
     const marker = addAirportMarker(airport);
@@ -54,38 +64,35 @@ function createMarkersForAllAirports() {
   });
 }
 
-// Function to handle search input changes
+/*
+ Author:
+ Description: filters the list of airports when the user types in the search bar
+*/
 function handleSearchInputChange() {
   const searchInput = document.getElementById('airportSearch');
   const searchQuery = searchInput.value.toLowerCase();
-
-  // Filter airports based on the search query
   const filteredAirports = airports.filter(airport => airport.name.toLowerCase().includes(searchQuery));
-
-  // Clear existing markers and airport buttons
+  // Clear existing markers and airport buttons t
   clearMarkers();
   clearAirportButtons();
-
-  // Create markers for filtered airports and buttons for the list
+  // Show only the mmarkers for filtered airports and buttons for the list
   createMarkersForFilteredAirports(filteredAirports);
   createButtonsForFilteredAirports(filteredAirports);
 }
 
-// Function to clear all markers
+/*
+ Author:
+ Description: clears the list of current markers present on the map
+*/
 function clearMarkers() {
   currentMarkers.forEach(marker => marker.remove());
   currentMarkers = [];
 }
 
-// Function to create markers for filtered airports
-function createMarkersForFilteredAirports(filteredAirports) {
-  filteredAirports.forEach(airport => {
-    const marker = addAirportMarker(airport);
-    currentMarkers.push(marker);
-  });
-}
-
-// Function to clear all airport buttons
+/*
+ Author:
+ Description: clears the list of buttons for all the airports
+*/
 function clearAirportButtons() {
   const airportList = document.getElementById('airportData');
   while (airportList.firstChild) {
@@ -93,7 +100,22 @@ function clearAirportButtons() {
   }
 }
 
-// Function to create buttons for filtered airports
+/*
+ Author:
+ Description: creates a blue marker on the map of the each airport included in the filteredAirports argument
+*/
+function createMarkersForFilteredAirports(filteredAirports) {
+  filteredAirports.forEach(airport => {
+    const marker = addAirportMarker(airport);
+    currentMarkers.push(marker);
+  });
+}
+
+/*
+ Author:
+ Description: calls the createAirportButton function to create a button for each of 
+ the airports included in the filteredAirports argument
+*/
 function createButtonsForFilteredAirports(filteredAirports) {
   const airportList = document.getElementById('airportData');
   filteredAirports.forEach(airport => {
@@ -101,7 +123,12 @@ function createButtonsForFilteredAirports(filteredAirports) {
   });
 }
 
-// Fetch airport data and create buttons and markers
+/*
+ Author:
+ Description: fetches the information of the airports from the API. It then displays all the airports
+ as buttons by calling the createButtonsForFilteredAirports(argument is all airports). It then creates
+ blue markers on the map for all of those airports.
+*/
 function fetchAirportData() {
   fetch('https://flight-radar1.p.rapidapi.com/airports/list', {
     headers: {
@@ -114,8 +141,6 @@ function fetchAirportData() {
         airports = data.rows.filter(
           airport => airport.lat && airport.lon && airport.country === 'Philippines'
         );
-
-        // Create buttons and markers for all airports
         createButtonsForFilteredAirports(airports);
         createMarkersForAllAirports();
       } else {
@@ -131,32 +156,32 @@ searchInput.addEventListener('input', handleSearchInputChange);
 
 fetchAirportData();
 
+/*
+ Author:
+ Description: 
+*/
 function findNearestAirportAndDrawLine(coordinates) {
   const nearestAirport = findNearestAirport(coordinates);
-
   if (!nearestAirport) {
     console.error('No airports found');
     return;
   }
-
   clearAirportButtons();
-
-  // Draw a line to the nearest airport and show its distance
   drawLineToAirport(coordinates, nearestAirport);
   showDistanceToAirport(coordinates, nearestAirport);
-
-  // Create a button for the nearest airport
   createAirportButton(nearestAirport);
 }
 
-// Function to calculate the distance between two sets of coordinates
+/*
+ Author:
+ Description: calculates the distance between to coordinates, coord1 and coord2
+*/
 function calculateDistance(coord1, coord2) {
   const lat1 = coord1[1];
   const lon1 = coord1[0];
   const lat2 = coord2[1];
   const lon2 = coord2[0];
-
-  const R = 6371; // Radius of the Earth in kilometers
+  const R = 6371; // radius of earth in kilometers
   const dLat = (lat2 - lat1) * (Math.PI / 180);
   const dLon = (lon2 - lon1) * (Math.PI / 180);
   const a =
@@ -165,7 +190,6 @@ function calculateDistance(coord1, coord2) {
     Math.sin(dLon / 2) * Math.sin(dLon / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   const distance = R * c;
-
   return distance;
 }
 
@@ -328,29 +352,14 @@ function drawLineToAirport(fromCoordinates, airport) {
   });
 }
 
-// Function to reset the map
+/*
+ Author:
+ Description: function to reload the page when the 'reset' button is clicked
+*/
 function resetMap() {
-  // Reload the page
   location.reload();
 }
 
 const resetButton = document.getElementById('resetMap');
 resetButton.addEventListener('click', resetMap);
 
-//DISTANCE CALCULATOR
-const url = 'https://distanceto.p.rapidapi.com/get?route=%3CREQUIRED%3E&car=false';
-const options = {
-	method: 'GET',
-	headers: {
-		'X-RapidAPI-Key': '5961500a36msh3cbc952aea0b074p1ab40djsn8a69499a3604',
-		'X-RapidAPI-Host': 'distanceto.p.rapidapi.com'
-	}
-};
-
-try {
-	const response = await fetch(url, options);
-	const result = await response.text();
-	console.log(result);
-} catch (error) {
-	console.error(error);
-}
