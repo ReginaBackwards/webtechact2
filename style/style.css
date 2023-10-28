@@ -186,7 +186,6 @@ html {
   padding: 10px;
   border: 2px solid white;
   border-radius: 10px;
-  display: block;
   margin-bottom: 5px;
   width: 100%;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
@@ -212,7 +211,6 @@ html {
   padding: 10px;
   border: 2px solid white;
   border-radius: 10px;
-  display: block;
   width: 100%;
   background-color: #ffffffd2;
   width: 100%;
@@ -225,4 +223,8 @@ html {
   height: auto;
   display: block;
   margin: 0 auto; 
+}
+
+#airportImage {
+  display: none;
 }

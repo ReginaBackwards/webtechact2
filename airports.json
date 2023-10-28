@@ -12,6 +12,9 @@
     "BPA": {
       "imagePath": "style/media/BPA.jpeg"
     },
+    "BSO": {
+      "imagePath": "style/media/BSO.jpg"
+    },
     "USU": {
       "imagePath": "style/media/USU.jpeg"
     },

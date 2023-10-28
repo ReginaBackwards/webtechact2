@@ -128,6 +128,7 @@ function createMarkersForFilteredAirports(filteredAirports) {
 */
 function createButtonsForFilteredAirports(filteredAirports) {
   const airportList = document.getElementById('airportData');
+  airportList.style.width = '100%';
   filteredAirports.forEach(airport => {
     createAirportButton(airport);
   });
@@ -160,6 +161,11 @@ function fetchAirportData() {
     .catch(error => console.error(error));
 }
 
+
+/*
+ Author: Marvin Rosanto
+ Description: fetches the specific airport image to be displayed from a json file
+*/
 // Function to load JSON data and display airport image
 function loadAirportImage(airportCode) {
   fetch('airports.json')
@@ -176,6 +182,7 @@ function loadAirportImage(airportCode) {
 
         // Add the img element to a container div
         const imageContainer = document.getElementById('airportImage');
+        imageContainer.style.display = 'block';
         imageContainer.innerHTML = '';
         imageContainer.appendChild(imgElement);
       } else {
