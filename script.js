@@ -1,9 +1,12 @@
 /*
- Author:
+ Author: Paul Ivan Dimacali
  Description: Mapbox Access Token
 */
 mapboxgl.accessToken = 'pk.eyJ1IjoicmVnaW5hYmFja3dhcmRzIiwiYSI6ImNsbnN4Y3JqcDFoM2YybW8ycTd2ZGJqZjQifQ.uKv4TTT2HDybR6e_l8UDdg';
-// initialization of variables/objects needed in the functions
+/*
+Authors: Janbert Dela Cruz, America Slay
+Description: Initialization of variables/objects needed in the functions
+*/
 const resetButton = document.getElementById('resetMap');
 resetButton.addEventListener('click', resetMap);
 let currentMarkers = []; //for storing active markers on the map to aid in filtering
@@ -16,7 +19,7 @@ let lineId = null;
 fetchAirportData(); //fetches the information of the airports information from the API
 
 /*
- Author:
+ Authors: Janbert Dela Cruz, America Slay, Paul Ivan Dimacali
  Description: Limits the bounds of the mapbox view to the Philippines
 */
 const map = new mapboxgl.Map({
@@ -31,7 +34,7 @@ const map = new mapboxgl.Map({
 });
 
 /*
- Author:
+ Authors: Janbert Dela Cruz, America Slay
  Description: Creates a button and its on-click listener for an airport coming from the API
 */
 function createAirportButton(airport) {
@@ -49,7 +52,7 @@ function createAirportButton(airport) {
 }
 
 /*
- Author:
+ Authors: Janbert Dela Cruz, America Slay
  Description: Adds a blue marker to an airport on the map using its coordinates
 */
 function addAirportMarker(airport) {
@@ -61,7 +64,7 @@ function addAirportMarker(airport) {
 }
 
 /*
- Author:
+ Authors: Janbert Dela Cruz, America Slay
  Description: calls the addAirportMarker function repeatedly to create a blue marker for all airports on the map
 */
 function createMarkersForAllAirports() {
@@ -72,7 +75,7 @@ function createMarkersForAllAirports() {
 }
 
 /*
- Author:
+ Authors: Janbert Dela Cruz, America Slay
  Description: filters the list of airports when the user types in the search bar
 */
 function handleSearchInputChange() {
@@ -88,7 +91,7 @@ function handleSearchInputChange() {
 }
 
 /*
- Author:
+ Authors: Janbert Dela Cruz, America Slay
  Description: clears the list of current markers present on the map
 */
 function clearMarkers() {
@@ -97,7 +100,7 @@ function clearMarkers() {
 }
 
 /*
- Author:
+ Authors: Janbert Dela Cruz, America Slay
  Description: clears the list of buttons for all the airports
 */
 function clearAirportButtons() {
@@ -108,7 +111,7 @@ function clearAirportButtons() {
 }
 
 /*
- Author:
+ Authors: Janbert Dela Cruz, America Slay
  Description: creates a blue marker on the map of the each airport included in the filteredAirports argument
 */
 function createMarkersForFilteredAirports(filteredAirports) {
@@ -119,7 +122,7 @@ function createMarkersForFilteredAirports(filteredAirports) {
 }
 
 /*
- Author:
+ Authors: Janbert Dela Cruz, America Slay
  Description: calls the createAirportButton function to create a button for each of 
  the airports included in the filteredAirports argument
 */
@@ -131,7 +134,7 @@ function createButtonsForFilteredAirports(filteredAirports) {
 }
 
 /*
- Author:
+ Authors: Janbert Dela Cruz, America Slay
  Description: fetches the information of the airports from the API. It then displays all the airports
  as buttons by calling the createButtonsForFilteredAirports(argument is all airports). It then creates
  blue markers on the map for all of those airports.
@@ -158,7 +161,7 @@ function fetchAirportData() {
 }
 
 /*
- Author:
+ Authors: Janbert Dela Cruz, America Slay
  Description: calls the different functions to find the nearest airport based on the location clicked, draws the line,
  and dispays that airports button and information
 */
@@ -175,7 +178,7 @@ function findNearestAirportAndDrawLine(coordinates) {
 }
 
 /*
- Author:
+ Authors: Janbert Dela Cruz, America Slay
  Description: calculates the distance between to coordinates, coord1 and coord2
 */
 function calculateDistance(coord1, coord2) {
@@ -196,7 +199,7 @@ function calculateDistance(coord1, coord2) {
 }
 
 /*
- Author:
+ Authors: Janbert Dela Cruz, America Slay
  Description: returns the airport that has the least distance to the coordinates argument
 */
 function findNearestAirport(coordinates) {
@@ -211,7 +214,7 @@ function findNearestAirport(coordinates) {
 }
 
 /*
- Author:
+ Authors: Janbert Dela Cruz, America Slay
  Description: display the distance and the information of the nearest airport
 */
 function showDistanceToAirport(fromCoordinates, airport) {
@@ -233,7 +236,7 @@ function showDistanceToAirport(fromCoordinates, airport) {
 
 
 /*
- Author:
+ Authors: Janbert Dela Cruz, America Slay
  Description: remove a line on the map using its lineId if it exists
 */
 function removeLine() {
@@ -246,7 +249,7 @@ function removeLine() {
 }
 
 /*
- Author:
+ Authors: Janbert Dela Cruz, America Slay
  Description: removes the contents of the nearestAirportInfo (called when a new location is clicked)
 */
 function clearNearestAirportInfo() {
@@ -257,7 +260,7 @@ function clearNearestAirportInfo() {
 }
 
 /*
-Author:
+Authors: Janbert Dela Cruz, America Slay
 Description: event handler when the user clicks on the map
 - clears previous info from previous click (including line to previous nearest airport)
 - adds a red marker at the clicked location
@@ -278,7 +281,7 @@ map.on('click', (e) => {
 });
 
 /*
-Author:
+Authors: Janbert Dela Cruz, America Slay
 Description: Function to draw a line between the fromCoordinates(coordinates of clicked location) to 
 the coordinates of 'airport' (nearest airport)
 */
@@ -318,7 +321,7 @@ function drawLineToAirport(fromCoordinates, airport) {
 }
 
 /*
- Author:
+ Authors: Janbert Dela Cruz, America Slay
  Description: function to reload the page when the 'reset' button is clicked
 */
 function resetMap() {
