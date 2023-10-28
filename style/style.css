@@ -65,6 +65,10 @@
   background-color: #00155080;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 #hero-btn:hover {
   color: black;
   background-color: rgb(152, 150, 148);
