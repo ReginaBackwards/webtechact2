@@ -1,6 +1,9 @@
 # Website Hosting with Go
 
-This README provides instructions on how to install and set up a local web server using Go to host your website in the VSCode IDE. The web server serves HTML, CSS, JavaScript, and JSON files using the `host.go` file.
+This README provides instructions on how to install and set up a local web server using Go to host your 
+website in the VSCode IDE or using the Windows Command Prompt. 
+
+The web server serves HTML, CSS, JavaScript, and JSON files using the `host.go` file.
 
 
 ======================== RUNNING THE WEBSERVER ========================
@@ -93,6 +96,7 @@ Before you get started, make sure you have the following prerequisite installed 
 
 
 ======================== STOPPING THE WEBSERVER ========================
+
 
 To stop the web server, go to the terminal where the server is running and press `Ctrl+C`. 
 	This will shut down the server.
