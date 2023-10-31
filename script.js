@@ -2,7 +2,7 @@
  Author: Paul Ivan Dimacali
  Description: Mapbox Access Token
 */
-mapboxgl.accessToken = 'pk.eyJ1IjoicmVnaW5hYmFja3dhcmRzIiwiYSI6ImNsbnN4Y3JqcDFoM2YybW8ycTd2ZGJqZjQifQ.uKv4TTT2HDybR6e_l8UDdg';
+mapboxgl.accessToken = 'ACCESS TOKEN';
 /*
 Authors: Janbert Dela Cruz, America Slay
 Description: Initialization of variables/objects needed in the functions
@@ -143,7 +143,7 @@ function createButtonsForFilteredAirports(filteredAirports) {
 function fetchAirportData() {
   fetch('https://flight-radar1.p.rapidapi.com/airports/list', {
     headers: {
-      'X-RapidAPI-Key': '3abd92b282msh2a1fd5ea65acf66p146728jsnb1a0fb7690fd',
+      'X-RapidAPI-Key': 'RADAR KEY',
     },
   })
     .then(response => response.json())
