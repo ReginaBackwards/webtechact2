@@ -138,31 +138,37 @@ function createButtonsForFilteredAirports(filteredAirports) {
 }
 
 /* Author: Paul Ivan Dimacs
-Description: fetches information of Airport IATA codes from fetchAirportData method. It then passes 
-these IATA codes to the fetchAirportSchedule
- */
-function compareIATACodes(airportCode){
-  const iataCodes = airportCode
-  fetchAirportSchedule(iataCodes);
-}
-
-/* Author: Paul Ivan Dimacs
 Description: Fetches the information of the airport schedules from the API. It then displays all the 
 flight schedule in the . 
  */
 function fetchAirportSchedule(iataCodes) {
-      fetch(`https://airlabs.co/api/v9/schedules?dep_iata=${iataCodes}&api_key=b56db1ac-4773-4bff-afcf-2fb165c7459e`)
-      .then(response => response.json())
-      .then(data => {
-        if (data.response) {
-          airportsSchedule = data.response.filter (
-            airport => airport.flight_number && airport.dep_time_utc && airport.arr_time_utc && airport.status
-            )
-          console.log('Airport schedule:', airportsSchedule);
-          }
-      })
-  .catch(error => console.error(error));
-  }
+  fetch(`https://airlabs.co/api/v9/schedules?dep_iata=${iataCodes}&api_key=b56db1ac-4773-4bff-afcf-2fb165c7459e`)
+    .then(response => response.json())
+    .then(data => {
+      if (data.response) {
+        const airportsSchedule = data.response.filter(
+          airport => airport.flight_number && airport.dep_time_utc && airport.arr_time_utc && airport.status
+        );
+        console.log('Airport schedule:', airportsSchedule);
+        
+        const airportS = document.getElementById('Nudes');
+        airportS.style.display = 'block';
+
+        airportsSchedule.forEach(airport => {
+          const RazzieBinx = document.createElement('div');
+          RazzieBinx.innerHTML = `
+            <h3>Flight number: ${airport.flight_number}</h3>
+            <p>Departure time (UTC): ${airport.dep_time_utc}<p>
+            <p>Arrival time (UTC): ${airport.arr_time_utc}<p>
+            <p>Airport status: ${airport.status}<p>
+          `;
+          airportS.appendChild(RazzieBinx);
+        });
+      }
+    })
+    .catch(error => console.error(error));
+}
+
 
 /*
  Authors: Janbert Dela Cruz, America Slay
@@ -240,7 +246,7 @@ function findNearestAirportAndDrawLine(coordinates) {
   createAirportButton(nearestAirport);
 
   loadAirportImage(nearestAirport.iata);
-  compareIATACodes(nearestAirport.iata);
+  fetchAirportSchedule(nearestAirport.iata);
 }
 
 /*
