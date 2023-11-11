@@ -142,6 +142,9 @@ Description: Fetches the information of the airport schedules from the API. It t
 flight schedule in the . 
  */
 function fetchAirportSchedule(iataCodes) {
+  const nudesDiv = document.getElementById('Nudes');
+  nudesDiv.innerHTML = ''; // Clear the content of the div
+
   fetch(`https://airlabs.co/api/v9/schedules?dep_iata=${iataCodes}&api_key=b56db1ac-4773-4bff-afcf-2fb165c7459e`)
     .then(response => response.json())
     .then(data => {
@@ -158,6 +161,7 @@ function fetchAirportSchedule(iataCodes) {
           const RazzieBinx = document.createElement('div');
           RazzieBinx.innerHTML = `
             <h3>Flight number: ${airport.flight_number}</h3>
+            <p>Airline IATA: ${airport.airline_iata}</p>
             <p>Departure time (UTC): ${airport.dep_time_utc}<p>
             <p>Arrival time (UTC): ${airport.arr_time_utc}<p>
             <p>Airport status: ${airport.status}<p>
