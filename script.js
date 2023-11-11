@@ -2,7 +2,7 @@
  Author: Paul Ivan Dimacali
  Description: Mapbox Access Token
 */
-mapboxgl.accessToken = 'ACCESS TOKEN';
+mapboxgl.accessToken = 'pk.eyJ1IjoicmVnaW5hYmFja3dhcmRzIiwiYSI6ImNsbnN4bzA4aTE3cGYydGxxb3Y2Z3AwYjkifQ.u7hM4l5capbXkFulYyHQuQ';
 /*
 Authors: Janbert Dela Cruz, America Slay
 Description: Initialization of variables/objects needed in the functions
@@ -11,12 +11,14 @@ const resetButton = document.getElementById('resetMap');
 resetButton.addEventListener('click', resetMap);
 let currentMarkers = []; //for storing active markers on the map to aid in filtering
 let airports = []; //for storing the list of airports
+let airportsSchedule = []; //for storing the list of airport schedules
 const searchInput = document.getElementById('airportSearch');
 searchInput.addEventListener('input', handleSearchInputChange);
 let redMarker = null;
 let previousNearestAirport = null;
 let lineId = null;
 fetchAirportData(); //fetches the information of the airports information from the API
+fetchAirportSchedule();
 
 /*
  Authors: Janbert Dela Cruz, America Slay, Paul Ivan Dimacali
@@ -131,8 +133,36 @@ function createButtonsForFilteredAirports(filteredAirports) {
   airportList.style.width = '100%';
   filteredAirports.forEach(airport => {
     createAirportButton(airport);
+    // compareIATACodes(airport.iata);
   });
 }
+
+/* Author: Paul Ivan Dimacs
+Description: fetches information of Airport IATA codes from fetchAirportData method. It then passes 
+these IATA codes to the fetchAirportSchedule
+ */
+function compareIATACodes(airportCode){
+  const iataCodes = airportCode
+  fetchAirportSchedule(iataCodes);
+}
+
+/* Author: Paul Ivan Dimacs
+Description: Fetches the information of the airport schedules from the API. It then displays all the 
+flight schedule in the . 
+ */
+function fetchAirportSchedule(iataCodes) {
+      fetch(`https://airlabs.co/api/v9/schedules?dep_iata=${iataCodes}&api_key=b56db1ac-4773-4bff-afcf-2fb165c7459e`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.response) {
+          airportsSchedule = data.response.filter (
+            airport => airport.flight_number && airport.dep_time_utc && airport.arr_time_utc && airport.status
+            )
+          console.log('Airport schedule:', airportsSchedule);
+          }
+      })
+  .catch(error => console.error(error));
+  }
 
 /*
  Authors: Janbert Dela Cruz, America Slay
@@ -143,7 +173,7 @@ function createButtonsForFilteredAirports(filteredAirports) {
 function fetchAirportData() {
   fetch('https://flight-radar1.p.rapidapi.com/airports/list', {
     headers: {
-      'X-RapidAPI-Key': 'RADAR KEY',
+      'X-RapidAPI-Key': 'cd02262ebemshb05120aa5967234p159208jsn145d27310ba2',
     },
   })
     .then(response => response.json())
@@ -152,6 +182,7 @@ function fetchAirportData() {
         airports = data.rows.filter(
           airport => airport.lat && airport.lon && airport.country === 'Philippines'
         );
+        console.log(airports);
         createButtonsForFilteredAirports(airports);
         createMarkersForAllAirports();
       } else {
@@ -209,6 +240,7 @@ function findNearestAirportAndDrawLine(coordinates) {
   createAirportButton(nearestAirport);
 
   loadAirportImage(nearestAirport.iata);
+  compareIATACodes(nearestAirport.iata);
 }
 
 /*
