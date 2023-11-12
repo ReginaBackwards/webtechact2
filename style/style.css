@@ -90,6 +90,7 @@ html {
   transition: 0.3s;
   overflow-y: auto;
   text-align: center;
+  max-height: 100vh
 }
 
 .sidebar h2 {
@@ -229,4 +230,19 @@ html {
 #airportImage {
   display: none;
 }
+
+#Nudes div {
+  text-align: left;
+  padding: 10px;
+  border: 2px solid white;
+  border-radius: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  width: 100%;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-weight: 900;
+  color: #003366;
+  background-color: #ffffffd2;
+}
+
 
