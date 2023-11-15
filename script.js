@@ -154,12 +154,12 @@ function fetchAirportSchedule(iataCodes) {
         );
         console.log('Airport schedule:', airportsSchedule);
         
-        const airportS = document.getElementById('Nudes');
+        const airportS = document.getElementById('airportSchedContainer');
         airportS.style.display = 'block';
 
         airportsSchedule.forEach(airport => {
-          const RazzieBinx = document.createElement('div');
-          RazzieBinx.innerHTML = `
+          const airSched = document.createElement('div');
+          airSched.innerHTML = `
             <h3>Flight number: ${airport.flight_number}</h3>
             <p>Airline IATA: ${airport.airline_iata}</p>
             <p>Departure time (UTC): ${airport.dep_time_utc}<p>
