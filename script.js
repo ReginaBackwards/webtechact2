@@ -137,13 +137,13 @@ function createButtonsForFilteredAirports(filteredAirports) {
   });
 }
 
-/* Author: Paul Ivan Dimacs
+/* Author: Paul Ivan Dimacs#
 Description: Fetches the information of the airport schedules from the API. It then displays all the 
 flight schedule in the . 
  */
 function fetchAirportSchedule(iataCodes) {
-  const nudesDiv = document.getElementById('Nudes');
-  nudesDiv.innerHTML = ''; // Clear the content of the div
+  const clearSched = document.getElementById('airportSchedContainer');
+  clearSched.innerHTML = ''; // Clear the content of the div
 
   fetch(`https://airlabs.co/api/v9/schedules?dep_iata=${iataCodes}&api_key=b56db1ac-4773-4bff-afcf-2fb165c7459e`)
     .then(response => response.json())
@@ -166,7 +166,7 @@ function fetchAirportSchedule(iataCodes) {
             <p>Arrival time (UTC): ${airport.arr_time_utc}<p>
             <p>Airport status: ${airport.status}<p>
           `;
-          airportS.appendChild(RazzieBinx);
+          airportS.appendChild(airSched);
         });
       }
     })
